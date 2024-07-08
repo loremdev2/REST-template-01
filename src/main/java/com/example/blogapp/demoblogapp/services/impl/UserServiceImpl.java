@@ -1,6 +1,7 @@
 package com.example.blogapp.demoblogapp.services.impl;
 
 import com.example.blogapp.demoblogapp.entities.User;
+import com.example.blogapp.demoblogapp.exceptions.DuplicateUserException;
 import com.example.blogapp.demoblogapp.exceptions.ResourceNotFoundException;
 import com.example.blogapp.demoblogapp.payloads.UserDTO;
 import com.example.blogapp.demoblogapp.repositories.UserRepo;
@@ -19,6 +20,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO createUser(UserDTO userDto) {
+        User existingUser=userRepo.findByEmail(userDto.getEmail());
+        if(existingUser!=null){
+            throw new DuplicateUserException("User with email"+ userDto.getEmail()+" already exists");
+        }
         User user= this.dtoTouser(userDto);
         User savedUser= userRepo.save(user);
         return this.userToDto(savedUser);
