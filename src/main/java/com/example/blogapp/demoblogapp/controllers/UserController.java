@@ -33,9 +33,9 @@ public class UserController {
 
     // DELETE - DELETE USER
     @DeleteMapping("/{userId}")
-    public ResponseEntity<UserDTO> deleteUser(@PathVariable Integer userId){
+    public ResponseEntity<String> deleteUser(@PathVariable Integer userId){
         this.userService.deleteUser(userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("User deleted successfully ",HttpStatus.OK);
     }
 
     // GET - USER GET
