@@ -3,6 +3,7 @@ package com.example.blogapp.demoblogapp.controllers;
 import com.example.blogapp.demoblogapp.entities.User;
 import com.example.blogapp.demoblogapp.payloads.UserDTO;
 import com.example.blogapp.demoblogapp.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,14 @@ public class UserController {
     // POST - CREATE USER
 
     @PostMapping("/")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDto){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDto){
         UserDTO createdUserDto= this.userService.createUser(userDto);
         return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
     }
 
     // PUT - UPDATE USER
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Integer userId){
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable Integer userId){
         UserDTO updatedUser= this.userService.updateUser(userDTO, userId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
@@ -51,6 +52,4 @@ public class UserController {
         List<UserDTO> users= this.userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-
-
 }
